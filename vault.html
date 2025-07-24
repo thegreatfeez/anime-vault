@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vault | Animeta Vault</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans ml-16 sm:ml-20">
+
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-full w-16 sm:w-20 bg-gray-800 flex flex-col items-center py-4 space-y-6 z-10">
+    <div class="w-10 h-10 bg-gray-600 rounded-full">
+      <img class="rounded-full" src="vault.png" />
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex flex-col items-center space-y-8 mt-8">
+      <a href="index.html" class="group flex flex-col items-center text-gray-400 hover:text-white">
+        <i class="fa-solid fa-house text-xl"></i>
+        <span class="text-[10px] mt-1 hidden group-hover:block">Home</span>
+      </a>
+      <a href="librabry.html" class="group flex flex-col items-center text-gray-400 hover:text-white">
+        <i class="fa-solid fa-film text-xl"></i>
+        <span class="text-[10px] mt-1 hidden group-hover:block">Library</span>
+      </a>
+      <a href="vault.html" class="group flex flex-col items-center text-blue-500">
+        <i class="fa-solid fa-lock text-xl"></i>
+        <span class="text-[10px] mt-1 hidden group-hover:block">Vault</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Vault Section -->
+  <section class="px-4 py-10">
+    <h2 class="text-3xl font-bold mb-6 text-center">My Vault</h2>
+    <div id="vault-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    </div>
+  </section>
+
+  <!-- Checkout Section -->
+  <section class="bg-gray-800 p-6 max-w-3xl mx-auto rounded-lg shadow-lg my-10">
+    <h3 class="text-2xl font-semibold mb-6">Checkout</h3>
+
+    <!-- Crypto Selection -->
+    <div class="mb-4">
+      <label for="crypto-select" class="block mb-2">Select Cryptocurrency:</label>
+      <select id="crypto-select" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg">
+        <option value="ETH">Ethereum (ETH)</option>
+        <option value="BASE">Base (BASE)</option>
+        <option value="USDT">Tether (USDT)</option>
+        <option value="MATIC">Polygon (MATIC)</option>
+      </select>
+    </div>
+
+    <!-- Wallet Input -->
+    <div class="mb-6">
+      <label for="wallet-address" class="block mb-2">Wallet Address:</label>
+      <input id="wallet-address" type="text" placeholder="0x..." class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg">
+    </div>
+
+    <!-- Rental Summary -->
+    <div id="rental-summary" class="bg-gray-700 text-sm p-4 rounded-lg mb-6 space-y-2">
+      <p><strong>Selected Currency:</strong> <span id="selected-currency">ETH</span></p>
+      <p><strong>Rental Price Per Movie:</strong> <span id="price-per-movie">0.005</span> <span id="currency-symbol">ETH</span></p>
+      <p><strong>Number of Movies:</strong> <span id="movie-count">0</span></p>
+      <p><strong>Rental Duration:</strong> <span id="rental-weeks">1</span> week(s)</p>
+      <hr class="border-gray-600" />
+      <p class="text-lg font-semibold">Total: <span id="total-cost">0.000</span> <span id="currency-symbol-total">ETH</span></p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-wrap gap-4">
+      <button class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold">
+        <i class="fa-solid fa-wallet mr-2"></i> Connect Wallet
+      </button>
+      <button class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold">
+        <i class="fa-solid fa-circle-check mr-2"></i> Confirm Checkout
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-20 p-4 border-t border-gray-700 text-center text-sm text-gray-500">
+    &copy; 2025 Anime Vault. Created by Afeez. Backed by Web3 infrastructure.
+  </footer>
+</body>
+</html>

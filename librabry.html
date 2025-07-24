@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library | Animeta Vault</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans ml-16 sm:ml-20">
+
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-full w-16 sm:w-20 bg-gray-800 flex flex-col items-center py-4 space-y-6 z-10">
+    <div class="w-10 h-10 bg-gray-600 rounded-full"><img class="rounded-full" src="vault.png" /></div>
+
+    <!-- Nav -->
+    <nav class="flex flex-col items-center space-y-8 mt-8">
+      <a href="index.html" class="group flex flex-col items-center text-gray-400 hover:text-white">
+        <i class="fa-solid fa-house text-xl"></i>
+        <span class="text-[10px] mt-1 hidden group-hover:block">Home</span>
+      </a>
+      <a href="librabry.html" class="group flex flex-col items-center text-blue-500">
+        <i class="fa-solid fa-film text-xl"></i>
+        <span class="text-[10px] mt-1 hidden group-hover:block">Library</span>
+      </a>
+      <a href="vault.html" class="group flex flex-col items-center text-gray-400 hover:text-white">
+        <i class="fa-solid fa-lock text-xl"></i>
+        <span class="text-[10px] mt-1 hidden group-hover:block">Vault</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Section -->
+  <main class="p-4">
+    <h1 class="text-2xl font-bold mb-4">My Library</h1>
+    <div id="vaultContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+  </main>
+</body>
+</html>
