@@ -21,23 +21,25 @@
         <i class="fa-solid fa-house text-xl"></i>
         <span class="text-[10px] mt-1 hidden group-hover:block">Home</span>
       </a>
-      <a href="librabry.html" class="group flex flex-col items-center text-gray-400 hover:text-white">
-        <i class="fa-solid fa-film text-xl"></i>
-        <span class="text-[10px] mt-1 hidden group-hover:block">Library</span>
-      </a>
+      
       <a href="vault.html" class="group flex flex-col items-center text-blue-500">
         <i class="fa-solid fa-lock text-xl"></i>
         <span class="text-[10px] mt-1 hidden group-hover:block">Vault</span>
+      </a>
+      <a href="librabry.html" class="group flex flex-col items-center text-gray-400 hover:text-white">
+        <i class="fa-solid fa-film text-xl"></i>
+        <span class="text-[10px] mt-1 hidden group-hover:block">Library</span>
       </a>
     </nav>
   </aside>
 
   <!-- Vault Section -->
-  <section class="px-4 py-10">
-    <h2 class="text-3xl font-bold mb-6 text-center">My Vault</h2>
-    <div id="vault-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    </div>
-  </section>
+<section class="px-4 py-10">
+  <h2 class="text-3xl font-bold mb-6 text-center">Selected Movies to Rent</h2>
+  <div id="selected-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- Movies selected from home will be inserted here before payment -->
+  </div>
+</section>
 
   <!-- Checkout Section -->
   <section class="bg-gray-800 p-6 max-w-3xl mx-auto rounded-lg shadow-lg my-10">
