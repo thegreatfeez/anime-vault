@@ -36,6 +36,9 @@
   <!-- Vault Section -->
 <section class="px-4 py-10">
   <h2 class="text-3xl font-bold mb-6 text-center">Selected Movies to Rent</h2>
+  <p class="text-center text-sm text-gray-100 mb-4">
+  <strong>Heads up:</strong> Movies are rented for a maximum duration of <strong>One week (7 days) only</strong>.
+</p>
   <div id="selected-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <!-- Movies selected from home will be inserted here before payment -->
   </div>
@@ -49,10 +52,8 @@
     <div class="mb-4">
       <label for="crypto-select" class="block mb-2">Select Cryptocurrency:</label>
       <select id="crypto-select" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg">
-        <option value="ETH">Ethereum (ETH)</option>
-        <option value="BASE">Base (BASE)</option>
-        <option value="USDT">Tether (USDT)</option>
-        <option value="MATIC">Polygon (MATIC)</option>
+        <option value="ETH">ETH (Base)</option>
+        <option value="USDT">USDT (Tether)</option>
       </select>
     </div>
 
@@ -65,9 +66,7 @@
     <!-- Rental Summary -->
     <div id="rental-summary" class="bg-gray-700 text-sm p-4 rounded-lg mb-6 space-y-2">
       <p><strong>Selected Currency:</strong> <span id="selected-currency">ETH</span></p>
-      <p><strong>Rental Price Per Movie:</strong> <span id="price-per-movie">0.005</span> <span id="currency-symbol">ETH</span></p>
       <p><strong>Number of Movies:</strong> <span id="movie-count">0</span></p>
-      <p><strong>Rental Duration:</strong> <span id="rental-weeks">1</span> week(s)</p>
       <hr class="border-gray-600" />
       <p class="text-lg font-semibold">Total: <span id="total-cost">0.000</span> <span id="currency-symbol-total">ETH</span></p>
     </div>
