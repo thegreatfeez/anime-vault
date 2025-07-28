@@ -140,10 +140,17 @@ document.addEventListener("click", function(e){
       
 
         const stored = JSON.parse(localStorage.getItem("selectedAnimes")) || []
+        const inLibrary = JSON.parse(localStorage.getItem("rentedAnime")) || [];
+
         const alreadyExist = stored.find(anime => anime.id === selectedAnime.id)
+        const alreadyInLibrary = inLibrary.find(anime => anime.id === selectedAnime.id)
+
         if(alreadyExist){
         return alert("This anime is already in your vault.");
+        }else if(alreadyInLibrary){
+          return alert("This anime is in your library already");
         }
+
         stored.push(selectedAnime)
         localStorage.setItem("selectedAnimes", JSON.stringify(stored))
         alert("Anime added to vault.")

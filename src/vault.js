@@ -67,7 +67,7 @@ async function getTotalPrice() {
     try {
       const vault = JSON.parse(localStorage.getItem("selectedAnimes")) || [];
       const totalNumberOfMovies = vault.length;
-        const totalPriceInUSDT = vault.map(arr => parseFloat(arr.price)).reduce((a, b) => a + b, 0);
+        const totalPriceInUSDT = vault.map(arr => parseFloat(arr.price)).reduce((a, b) => a + b, 0).toFixed(2);
         const selectedCurrency = selectCrypto.value
         let sumaryHTLM =""
 
@@ -106,7 +106,10 @@ async function getTotalPrice() {
 getTotalPrice()
 
 connectWallet.addEventListener('click', function(){
-  setTimeout(() => {
+  const totalNumberOfMovies = vault.length;
+  if(totalNumberOfMovies > 0){
+    setTimeout(() => {
+    vaultFeeds.innerHTML = ""
     checkoutFeeds.innerHTML = `
       <div class="max-w-sm w-full mx-auto bg-white rounded-xl shadow-lg p-6 relative">
         <div class="flex justify-center mb-4">
@@ -127,13 +130,48 @@ connectWallet.addEventListener('click', function(){
       </div>
     `;
   }, 1000);
-
+  }
 })
 
 
 
  document.addEventListener('click',function(e){
   if(e.target.classList.contains('confirm-btn')){
-    console.log("payed")
+    checkoutFeeds.innerHTML = `<div class="max-w-sm w-full mx-auto bg-white rounded-xl shadow-lg p-6 relative">
+  <div class="flex justify-center mb-4">
+    <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="text-center space-y-2">
+    <h2 class="text-lg font-semibold text-gray-800">Jutsu Complete!</h2>
+    <p class="text-base text-gray-700">
+      Your spirit energy has been channeled successfully. You may now enter the <span class="font-semibold text-indigo-600">Vault of Legends</span>.
+    </p>
+
+    <a href="librabry.html" class="inline-block mt-4 px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all font-semibold">
+      <i class="fa-solid fa-book-open-reader mr-2"></i> Enter Your Library
+    </a>
+  </div>
+</div>
+    `
+  
+    if (vault.length > 0) {
+      const existing = JSON.parse(localStorage.getItem("rentedAnime")) || [];
+      const merged = [...existing];
+
+      vault.forEach(anime => {
+        const alreadyAdded = existing.find(a => a.id === anime.id);
+        if (!alreadyAdded) {
+          merged.push(anime);
+        }
+      });
+
+      localStorage.setItem('rentedAnime', JSON.stringify(merged));
+      localStorage.removeItem('selectedAnimes');
+    }
   }
- })
+});
