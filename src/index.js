@@ -1,75 +1,18 @@
 const searchEl = document.getElementById('search-input')
 const searchBtn = document.getElementById('search-button')
 const Moviecontainer = document.getElementById('movies-container')
+const storedList = JSON.parse(localStorage.getItem("Anime"));
+let animeList
+// localStorage.clear()
 
 
 
-searchBtn.addEventListener('click',  async function(){
-    try {
-const query = searchEl.value.trim();
-searchEl.value = ''
-const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`);
-if (!res.ok){
-    throw Error('something went wrong')
-}
-const data = await res.json();
-class Anime{
-    constructor(id, title, image, score, genres, synopsis){
-    this.id = id;
-    this.title = title;
-    this.image = image;
-    this.score = score;
-    this.genres = genres;
-    this.synopsis = synopsis;
-    }
-}
-
-let animeList = data.data.map(item => {
-    return new Anime(
-        item.mal_id,
-        item.title,
-        item.images.jpg.image_url,
-        item.score,
-        item.genres.map(g => g.name),
-        item.synopsis
-    );
-    
-});
-Moviecontainer.innerHTML = animeList.map(animes => displayCard(animes)).join('')
-
-setTimeout(() => {
-  animeList.forEach(anime => {
-    const input = document.getElementById(`rental-days-${anime.id}`);
-    const priceEl = document.getElementById(`price-${anime.id}`);
-
-    if (input && priceEl) {
-      input.addEventListener('input', () => {
-        priceEl.textContent = determineRentPrice(anime);
-      });
-    }
-  });
-}, 100);
-
-
-setTimeout(() =>{
-    const result = animeList.map(anime => determineRentPrice(anime))
-    console.log(result)
-} ,100)
-
-    }
-
-    catch(err){ alert (err.message)
-}
-
-});
-
-function determineRentPrice(anime){
-let duration = Number(document.getElementById(`rental-days-${anime.id}`).value)
+function determineRentPrice(anime, durationToRent = 1){
 const defaultPrice = 0.5;
-
 const hasAction = anime.genres.includes("Action");
 const hasComedy = anime.genres.includes("Comedy")
 let extra = 0;
+
 
 if(hasAction){
     extra += 0.3
@@ -78,19 +21,20 @@ if(hasComedy){
     extra += 0.15
 }
 
-let total = (defaultPrice + extra) * duration
+let total = (defaultPrice + extra) * durationToRent
 return total.toFixed(2)
 }
 
 function displayCard(anime) {
-const price = determineRentPrice(anime)
   const genres = anime.genres.join(",");
   const synopsis = anime.synopsis
     ? anime.synopsis.slice(0, 100) + "..."
     : "No synopsis available";
 
+    const price = determineRentPrice(anime, 1)
+
   return `
-    <div class="bg-white shadow-md rounded-xl overflow-hidden flex flex-col w-[18rem] text-sm">
+    <div id="anime-card-${anime.id}" class="bg-white shadow-md rounded-xl overflow-hidden flex flex-col w-[18rem] text-sm">
       <img src="${anime.image}" alt="${anime.title}" class="w-full h-44 object-cover">
       <div class="px-3 py-2 space-y-2">
         <h2 class="font-semibold text-base leading-tight">${anime.title}</h2>
@@ -111,7 +55,7 @@ const price = determineRentPrice(anime)
         </div>
 
         <p class="text-sm text-gray-700">
-          <strong>Price:</strong> <span id="price-${anime.id}">${price}</span>
+          <strong>Price:</strong> <span id="price-${anime.id}">$${price}</span>
         </p>
 
         <button 
@@ -123,21 +67,93 @@ const price = determineRentPrice(anime)
     </div>
   `;
 }
-// function determineRentPrice(anime){
-// let duration = Number(document.getElementById(`rental-days-${anime.id}`).value)
-// const defaultPrice = 0.5;
+if(searchBtn){
+  searchBtn.addEventListener('click',  async function(){
+    try {
+const query = searchEl.value.trim();
+searchEl.value = ''
+const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`);
+if (!res.ok){
+    throw Error('something went wrong')
+}
+const data = await res.json();
+class Anime{
+    constructor(id, title, image, score, genres, synopsis,price,durationToRent){
+    this.id = id;
+    this.title = title;
+    this.image = image;
+    this.score = score;
+    this.genres = genres;
+    this.synopsis = synopsis;
+    this.price = price
+    this.durationToRent = durationToRent
+    }
+}
 
-// const hasAction = anime.genres.includes("Action");
-// const hasComedy = anime.genres.includes("Comedy")
-// let extra = 0;
+animeList = data.data.map(item => {
+  const genres= item.genres.map(g => g.name)
+  const defaultDuration = 1
+  const price = determineRentPrice({genres: item.genres.map(g => g.name)}, defaultDuration);
+    return new Anime(
+        item.mal_id,
+        item.title,
+        item.images.jpg.image_url,
+        item.score,
+        genres,
+        item.synopsis,
+        price,
+        defaultDuration
+    );
+});
 
-// if(hasAction){
-//     extra += 0.3
-// }
-// if(hasComedy){
-//     extra += 0.15
-// }
-// let total = (defaultPrice + extra) * duration
-// return total.toFixed(2)
-// }
+Moviecontainer.innerHTML = animeList.map(animes => displayCard(animes)).join('')
 
+
+  animeList.forEach(anime => {
+    const input = document.getElementById(`rental-days-${anime.id}`);
+    const priceEl = document.getElementById(`price-${anime.id}`);
+
+    if (input && priceEl) {
+      input.addEventListener('input', () => {
+        let duration = Number(input.value) || 1;
+        let newPrice = determineRentPrice(anime, duration)
+        priceEl.textContent = newPrice;
+
+        anime.price = newPrice;
+        anime.durationToRent = duration
+      });
+    }
+  });
+
+ }
+
+    catch(err){ alert (err.message)
+}
+
+});
+}
+
+
+document.addEventListener("click", function(e){
+    if(e.target.classList.contains("add-btn")) {
+        const animeId = e.target.dataset.id
+        const selectedAnime = animeList.find(m => m.id === parseInt(animeId))
+        const card = document.getElementById(`anime-card-${animeId}`);
+        console.log(selectedAnime)
+
+        const stored = JSON.parse(localStorage.getItem("selectedAnimes")) || []
+        const alreadyExist = stored.find(anime => anime.id === selectedAnime.id)
+        if(alreadyExist){
+        return alert("This anime is already in your vault.");
+        }
+        stored.push(selectedAnime)
+        localStorage.setItem("selectedAnimes", JSON.stringify(stored))
+        alert("Anime added to vault.")
+    
+        if (card) {
+        card.style.opacity = '0.5';
+        card.style.pointerEvents = 'none';
+        }
+        console.log(selectedAnime)
+    }
+})
