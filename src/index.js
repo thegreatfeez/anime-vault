@@ -3,8 +3,6 @@ const searchBtn = document.getElementById('search-button')
 const Moviecontainer = document.getElementById('movies-container')
 const storedList = JSON.parse(localStorage.getItem("Anime"));
 let animeList
-// localStorage.clear()
-
 
 
 function determineRentPrice(anime, durationToRent = 1){
@@ -139,7 +137,7 @@ document.addEventListener("click", function(e){
         const animeId = e.target.dataset.id
         const selectedAnime = animeList.find(m => m.id === parseInt(animeId))
         const card = document.getElementById(`anime-card-${animeId}`);
-        console.log(selectedAnime)
+      
 
         const stored = JSON.parse(localStorage.getItem("selectedAnimes")) || []
         const alreadyExist = stored.find(anime => anime.id === selectedAnime.id)
@@ -154,6 +152,5 @@ document.addEventListener("click", function(e){
         card.style.opacity = '0.5';
         card.style.pointerEvents = 'none';
         }
-        console.log(selectedAnime)
     }
 })
